@@ -43,7 +43,7 @@ def sockServ = new WebSocketServer(new InetSocketAddress(config.port)) {
 }
 
 def connectRun = {
-    def state = [players:[], mines:[], bombs:[]]
+    def state = [players:[], mines:[], bombs:[], wormholes:[], walls:[]]
     new Socket(config.biHost, config.biPort).withStreams { ins, outs ->
         ins.eachLine { line ->
             StringTokenizer st = new StringTokenizer(line)
@@ -81,13 +81,33 @@ def connectRun = {
             state.bombs.clear()
             loop = st.nextToken() as Integer
             for (def i = 0; i < loop; i++) {
-                println i
                 def b = [:]
                 b.delay = st.nextToken() as Integer
                 b.life = st.nextToken() as Integer
                 b.px = st.nextToken() as Double
                 b.py = st.nextToken() as Double
                 state.bombs << b
+            }
+
+            state.wormholes.clear()
+            loop = st.nextToken() as Integer
+            for (def i = 0; i < loop; i++) {
+                def w = [:]
+                w.px = st.nextToken() as Double
+                w.py = st.nextToken() as Double
+                w.radius = st.nextToken() as Double
+                state.wormholes << w
+            }
+
+            state.walls.clear()
+            loop = st.nextToken() as Integer
+            for (def i = 0; i < loop; i++) {
+                def w = [:]
+                w.x1 = st.nextToken() as Double
+                w.y1 = st.nextToken() as Double
+                w.x2 = st.nextToken() as Double
+                w.y2 = st.nextToken() as Double
+                state.walls << w
             }
 
             //println ((( ( state.totalTicks - state.tick ) / ( 1000 / state.tickDelay ) ) as Integer) % 60)
