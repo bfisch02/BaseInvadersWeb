@@ -53,6 +53,7 @@ def connectRun = {
             state.totalTicks = st.nextToken() as Long
             state.tickDelay = st.nextToken() as Long
             state.bombRadius = st.nextToken() as Double
+            state.visionRadius = st.nextToken() as Double
 
             state.players.clear()
             def loop = st.nextToken() as Integer
@@ -61,6 +62,7 @@ def connectRun = {
                 p.id = st.nextToken() as Integer
                 p.name = st.nextToken()
                 p.score = st.nextToken() as Integer
+                p.minecount = st.nextToken() as Integer
                 p.px = st.nextToken() as Double
                 p.py = st.nextToken() as Double
                 p.vx = st.nextToken() as Double
